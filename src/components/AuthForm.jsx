@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View } from "react-native-web";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 import Spacer from "./Spacer";
 
-const AuthForm = ({ header, error, btnTitle, onSubmit }) => {
+const AuthForm = ({ header, error, btnTitle, onSubmit, type }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
 
   return (
     <>
@@ -30,14 +30,29 @@ const AuthForm = ({ header, error, btnTitle, onSubmit }) => {
         autoCapitalize="none"
         secureTextEntry
       />
+
+      {type === "register" ? (
+        <>
+          <Spacer />
+          <TextInput
+            label="Username"
+            value={username}
+            onChangeText={setUsername}
+            autoCorrect={false}
+            autoCapitalize="none"
+            style={{ marginBottom: 15 }}
+          />
+        </>
+      ) : null}
       {error ? (
         <View style={styles.errorView}>
           <Spacer>
-            <Text styles={styles.errorMessage}>{error}</Text>
+            <Text style={styles.errorMessage}>{error}</Text>
           </Spacer>
         </View>
       ) : null}
-      <Button raised onPress={() => onSubmit({ email, password })}>
+
+      <Button raised onPress={() => onSubmit({ email, password, username })}>
         {btnTitle}
       </Button>
     </>
