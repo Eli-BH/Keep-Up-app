@@ -66,7 +66,7 @@ export const authSelector = (state) => state.auth;
 
 export default authSlice.reducer;
 
-export function register(userData) {
+export function handleRegister(userData) {
   return async (dispatch) => {
     dispatch(register());
 
@@ -88,7 +88,7 @@ export function register(userData) {
   };
 }
 
-export function login(userData) {
+export function handleLogin(userData) {
   return async (dispatch) => {
     dispatch(login());
 
@@ -116,6 +116,12 @@ export function tryLocalLogin() {
       dispatch(loginSuccess(token));
       RootNavigation.navigate("Home");
     }
+  };
+}
+
+export function handleReset() {
+  return async (dispatch) => {
+    dispatch(authReset());
   };
 }
 
