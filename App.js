@@ -48,11 +48,11 @@ const App = () => {
       <SafeAreaProvider>
         <Stack.Navigator>
           {token ? (
-            <Stack.Group screenOptions={{ headerShown: true }}>
+            <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />
             </Stack.Group>
           ) : (
-            <Stack.Group screenOptions={{ headerShown: true }}>
+            <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="Register" component={RegisterScreen} />
             </Stack.Group>
