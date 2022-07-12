@@ -72,15 +72,15 @@ export function handleRegister(userData) {
 
     try {
       const { data } = await axios.post(
-        "http://192.168.1.6:5000/api/auth/register",
+        "https://servered-keepup-server.herokuapp.com/api/auth/register",
         userData
       );
 
-      await AsyncStorage.setItem("token", data);
+      await AsyncStorage.setItem("token", data.token);
+
+      dispatch(registerSuccess(data.token));
 
       RootNavigation.navigate("Home");
-
-      dispatch(registerSuccess(data));
     } catch (error) {
       console.log(error);
       dispatch(registerFailure());
@@ -94,13 +94,16 @@ export function handleLogin(userData) {
 
     try {
       const { data } = await axios.post(
-        "http://192.168.1.6:4000/api/auth/login",
+        "https://servered-keepup-server.herokuapp.com/api/auth/login",
         userData
       );
-      await AsyncStorage.setItem("token", data);
-      dispatch(loginSuccess(data));
 
-      RootNavigation.navigate("Home");
+      console.log(JSON.stringify(data));
+      console.log(data.token);
+      // await AsyncStorage.setItem("token", data);
+      // dispatch(loginSuccess(data));
+
+      // RootNavigation.navigate("Home");
     } catch (error) {
       dispatch(loginFailure(error));
     }
