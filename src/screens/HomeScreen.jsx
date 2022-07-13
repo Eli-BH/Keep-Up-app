@@ -4,7 +4,7 @@ import { Button } from "react-native-paper";
 import RoomsList from "../components/RoomsContainer/RoomsList";
 import Spacer from "../components/Spacer";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Keep Up</Text>
@@ -12,7 +12,7 @@ const HomeScreen = () => {
         icon="plus"
         mode="contained"
         style={styles.addBtn}
-        onPress={() => console.log("pressed")}
+        onPress={() => navigation.navigate("Create")}
       >
         Add room
       </Button>

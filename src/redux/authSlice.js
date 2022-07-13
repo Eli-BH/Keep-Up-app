@@ -38,7 +38,7 @@ const authSlice = createSlice({
       state.error = null;
       state.token = payload;
     },
-    logout: () => {
+    logout: (state) => {
       state.loading = false;
       state.error = false;
       state.token = null;
@@ -79,8 +79,6 @@ export function handleRegister(userData) {
       await AsyncStorage.setItem("token", data.token);
 
       dispatch(registerSuccess(data.token));
-
-      RootNavigation.navigate("Home");
     } catch (error) {
       console.log(error);
       dispatch(registerFailure());
@@ -98,14 +96,14 @@ export function handleLogin(userData) {
         userData
       );
 
-      console.log(JSON.stringify(data));
-      console.log(data.token);
-      // await AsyncStorage.setItem("token", data);
-      // dispatch(loginSuccess(data));
+      console.log(data);
 
-      // RootNavigation.navigate("Home");
+      await AsyncStorage.setItem("token", data.token);
+
+      dispatch(loginSuccess(data.token));
     } catch (error) {
-      dispatch(loginFailure(error));
+      console.log(error.message);
+      dispatch(loginFailure());
     }
   };
 }
@@ -117,7 +115,7 @@ export function tryLocalLogin() {
 
     if (token) {
       dispatch(loginSuccess(token));
-      RootNavigation.navigate("Home");
+      RootNavigation.navigate("HomeScreen");
     }
   };
 }
@@ -130,8 +128,7 @@ export function handleReset() {
 
 export function logOut() {
   return async (dispatch) => {
-    await AsyncStorage.removeItem("token");
-
     dispatch(logout());
+    await AsyncStorage.removeItem("token");
   };
 }
