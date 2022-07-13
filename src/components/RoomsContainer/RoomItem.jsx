@@ -4,11 +4,7 @@ import React from "react";
 
 const RoomItem = ({ title, roomType, userCount }) => {
   return (
-    <Card
-      elevation={4}
-      style={styles.container}
-      onPress={() => console.log(`${title}: pressed`)}
-    >
+    <Card elevation={4} style={styles.container}>
       <Card.Title title={title} />
       <Card.Content>
         <View style={styles.subText}>

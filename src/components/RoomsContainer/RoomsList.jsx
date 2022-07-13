@@ -1,6 +1,9 @@
 import { View, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import React from "react";
 import RoomItem from "./RoomItem";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+
 const rooms = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -67,12 +70,21 @@ const rooms = [
 const listFooter = () => <View style={{ height: 150 }}></View>;
 
 const RoomsList = () => {
+  const navigation = useNavigation();
+  const handlePress = (item) => {
+    navigation.navigate("Room", {
+      roomName: item.title,
+    });
+  };
+
   const RoomItemRender = ({ item }) => (
-    <RoomItem
-      title={item.title}
-      roomType={item.roomType}
-      userCount={item.userCount}
-    />
+    <TouchableOpacity onPress={() => handlePress(item)}>
+      <RoomItem
+        title={item.title}
+        roomType={item.roomType}
+        userCount={item.userCount}
+      />
+    </TouchableOpacity>
   );
   return (
     <SafeAreaView style={styles.container}>

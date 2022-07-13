@@ -27,6 +27,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import CreateRoomScreen from "./src/screens/CreateRoomScreen";
+import RoomScreen from "./src/screens/RoomScreen";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -64,7 +65,12 @@ const App = () => {
           <Stack.Screen
             name="Create"
             component={CreateRoomScreen}
-            options={{ title: "Create Room" }}
+            options={{ title: "Create Room", headerShadowVisible: true }}
+          />
+          <Stack.Screen
+            name="Room"
+            component={RoomScreen}
+            options={{ headerShown: true }}
           />
         </Stack.Group>
       </Stack.Navigator>
