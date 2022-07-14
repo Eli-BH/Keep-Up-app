@@ -1,10 +1,27 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import RoomsList from "../components/RoomsContainer/RoomsList";
-import Spacer from "../components/Spacer";
+import { getRooms, roomsReset, roomsSelector } from "../redux/RoomSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation }) => {
+  const [roomList, setRoomList] = useState([]);
+  const { rooms, error, loading } = useSelector(roomsSelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRooms());
+
+    setRoomList(rooms);
+
+    return () => {
+      dispatch(roomsReset());
+    };
+  }, []);
+
+  if (error) console.log(error);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Keep Up</Text>
@@ -17,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         Add room
       </Button>
 
-      <RoomsList />
+      {loading ? <Text>Loading</Text> : <RoomsList roomData={roomList} />}
     </View>
   );
 };

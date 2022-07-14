@@ -1,12 +1,21 @@
 import { View, StyleSheet } from "react-native";
 import { Button, List, TextInput, TouchableRipple } from "react-native-paper";
+import { createRoom } from "../redux/RoomSlice";
+
 import React, { useState } from "react";
 import Spacer from "../components/Spacer";
+import { useDispatch, useSelector } from "react-redux";
 
 const CreateRoomScreen = ({}) => {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("");
   const [roomPass, setRoomPass] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleCreateRoom = () => {
+    dispatch(createRoom({ roomName, roomType, roomPass }));
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +63,12 @@ const CreateRoomScreen = ({}) => {
       </List.Section>
 
       <Spacer />
-      <Button icon="plus" mode="contained" style={styles.addBtn}>
+      <Button
+        icon="plus"
+        mode="contained"
+        style={styles.addBtn}
+        onPress={handleCreateRoom}
+      >
         Create
       </Button>
     </View>

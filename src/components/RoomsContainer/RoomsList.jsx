@@ -4,73 +4,11 @@ import RoomItem from "./RoomItem";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 
-const rooms = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Card Item",
-    roomType: "Movies",
-    userCount: 4,
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Card Item",
-    roomType: "Movies",
-    userCount: 1,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Card Item",
-    roomType: "TV",
-    userCount: 7,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145573241e29d72",
-    title: "Fourth Card Item",
-    roomType: "TV",
-    userCount: 5,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-14534571e29d72",
-    title: "Fifth Card Item",
-    roomType: "TV",
-    userCount: 4,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145351e29d72",
-    title: "Sixth Card Item",
-    roomType: "Movies",
-    userCount: 9,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-14552571e29d72",
-    title: "Seventh Item",
-    roomType: "TV",
-    userCount: 3,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-14534344571e29d72",
-    title: "Eight Card Item",
-    roomType: "Movies",
-    userCount: 3,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-14514351e29d72",
-    title: "Ninth Card Item",
-    roomType: "Movies",
-    userCount: 2,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-1455255571e29d72",
-    title: "Tenth Item",
-    roomType: "Movies",
-    userCount: 4,
-  },
-];
-
 const listFooter = () => <View style={{ height: 150 }}></View>;
 
-const RoomsList = () => {
+const RoomsList = ({ roomData }) => {
   const navigation = useNavigation();
+
   const handlePress = (item) => {
     navigation.navigate("Room", {
       roomName: item.title,
@@ -80,17 +18,17 @@ const RoomsList = () => {
   const RoomItemRender = ({ item }) => (
     <TouchableOpacity onPress={() => handlePress(item)}>
       <RoomItem
-        title={item.title}
+        title={item.roomName}
         roomType={item.roomType}
-        userCount={item.userCount}
+        userCount={item.roomMembers.length}
       />
     </TouchableOpacity>
   );
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={rooms}
-        keyExtractor={(item) => item.id}
+        data={roomData}
+        keyExtractor={(item) => item._id}
         renderItem={RoomItemRender}
         ListFooterComponent={listFooter}
       />
