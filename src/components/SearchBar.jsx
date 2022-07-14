@@ -1,10 +1,24 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 import { TextInput } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchMedia,
+  searchSelector,
+  getMediaReset,
+} from "../redux/searchSlice";
 
 const SearchBar = () => {
-  const [query, setQuery] = useState("");
-  const [media, setMedia] = useState([
+  const dispatch = useDispatch();
+
+  const [mediaArr, setMediaArr] = useState([
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
       title: "First Item",
@@ -19,36 +33,73 @@ const SearchBar = () => {
     },
   ]);
 
-  const handleSubmit = () => {
-    alert("search");
+  const handleSearch = async (term) => {
+    term.length > 0
+      ? dispatch(fetchMedia("tv", term))
+      : dispatch(getMediaReset());
   };
 
+  const { media, error, loading } = useSelector(searchSelector);
+
+  console.log(media);
   return (
     <View>
       <TextInput
         mode="outlined"
         label="Search"
-        onChangeText={setQuery}
-        onSubmitEditing={handleSubmit}
+        onChangeText={(term) => handleSearch(term)}
       />
-      <View>
+      <View style={styles.container}>
         <FlatList
           data={media}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              <View>
-                <Text>{item.title}</Text>
-              </View>
+              <TouchableOpacity>
+                <View style={styles.item}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${item.poster_path}`,
+                    }}
+                  />
+
+                  <Text style={styles.itemText}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
             );
           }}
         />
       </View>
-      <Text>{query}</Text>
     </View>
   );
 };
 
 export default SearchBar;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    maxHeight: 150,
+    backgroundColor: "#fff",
+  },
+  image: {
+    width: 60,
+    height: 90,
+  },
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+    borderColor: "#000",
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: 5,
+    backgroundColor: "#EEE",
+  },
+  itemText: {
+    fontSize: 18,
+    marginLeft: 10,
+    flexWrap: "wrap",
+    maxWidth: 320,
+  },
+});
